@@ -26,11 +26,15 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-fastify": "^8.2.0",
+    "@nestjs/swagger": "^5.1.4",
     "@types/pg": "^8.6.1",
+    "add": "^2.0.6",
+    "fastify-swagger": "^4.12.6",
     "pg": "8.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
