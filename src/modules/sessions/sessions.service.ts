@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 
 @Injectable()
@@ -6,26 +6,34 @@ export class SessionsService {
     constructor(private readonly db: DatabaseService) { }
 
     async calculateSession(dateFromString: string, dateToString: string) {
-        const dateFrom = new Date(dateFromString);
-        const dateTo = new Date(dateToString)
+            const dateFrom = new Date(dateFromString);
+            const dateTo = new Date(dateToString);
+            if (isNaN(dateFrom.getTime()) || isNaN(dateTo.getTime())) {
+                throw new BadRequestException('Invalid date')
+            }
+            if (!this.isWorkingDay(dateFrom) || !this.isWorkingDay(dateTo)) {
+                throw new BadRequestException('You cant start/end rent at weekends')
+            }
 
-        if (!this.isWorkingDay(dateFrom) || !this.isWorkingDay(dateTo)) {
-            throw new BadRequestException('You cant start/end rent at weekends')
-        }
+            const rentPrice = this.calculateRentPrice(dateFrom, dateTo)
 
+            return {
+                dateFrom,
+                dateTo,
+                rentPrice
+            }
+
+
+    }
+
+    calculateRentPrice(dateFrom, dateTo) {
         const numberOfDays = this.calculateDaysRange(dateFrom, dateTo)
 
         if (numberOfDays > 30) {
             throw new BadRequestException('Max rent period error')
         }
 
-        const rentPrice = this.caclulateRentPrice(numberOfDays)
-
-        return {
-            dateFrom,
-            dateTo,
-            rentPrice
-        }
+        return this.caclulateRentPrice(numberOfDays)
     }
 
     private calculateDaysRange(dateFrom: Date, dateTo: Date) {
