@@ -43,7 +43,7 @@ $ docker-compose up
 ```
 
 ### Connect to local db
-* Create file /env/.env.development
+* Create file /env/.env
 * Add this text to file
 
     * POSTGRES_HOST=0.0.0.0
