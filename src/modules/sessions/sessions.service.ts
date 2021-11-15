@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 
 @Injectable()
@@ -40,11 +40,9 @@ export class SessionsService {
     caclulateRentPrice(numberOfDays: number) {
         let rentPrice = 0;
         const basePrice = 1000;
-        let rate;
+        let rate = 1;
         for (let day = 0; day < numberOfDays; day++) {
-            if (day < 4) {
-                rate = 1
-            } else if (day < 9) {
+            if (day < 9 && day > 4) {
                 rate = 0.95
             } else if (day < 17) {
                 rate = 0.9
@@ -61,16 +59,7 @@ export class SessionsService {
             const dateFrom = new Date(dateFromString);
             const dateTo = new Date(dateToString);
 
-            const valid = this.areDatesValid(dateFrom, dateTo)
-            if (!valid) {
-                throw new BadRequestException('Date are not valid')
-            }
-
-            const isAvailable = await this.hasNotSessions(carId, dateFrom, dateTo)
-
-            if (!isAvailable) {
-                throw new BadRequestException('Car is not available for this date range')
-            }
+            await this.checkAvailableStatus(carId, dateFrom, dateTo)
 
             const { rentPrice } = await this.calculateSession(dateFromString, dateToString)
 
@@ -80,23 +69,34 @@ export class SessionsService {
                 VALUES ('${rentPrice}', '${dateFromString}', '${dateToString}', '${carId}') 
                 RETURNING *`
             )
-
-        } catch (error) {
-            throw new Error(error.message)
+        } catch (e) {
+            return {
+                ok: false,
+                description: e.message
+            }
         }
+
     }
 
-    /* 
-        найти по carId все сессии по carId 
-    */
+    async checkAvailableStatus(carId: string, dateFrom: Date, dateTo: Date) {
+        const valid = this.areDatesValid(dateFrom, dateTo)
+        if (!valid) {
+            throw new Error('dates are not valid')
+        }
+
+        const isAvailable = await this.hasNotSessions(carId, dateFrom, dateTo)
+
+        if (!isAvailable) {
+            throw new Error('car is not available')
+        }
+
+    }
 
     private areDatesValid(dateFrom: Date, dateTo: Date) {
         return dateFrom < dateTo
     }
 
     async hasNotSessions(carId: string, dateFrom: Date, dateTo: Date) {
-        // 3 дня до и после для брони
-
         dateFrom.setDate(dateFrom.getDate() - 3).toLocaleString()
         dateTo.setDate(dateTo.getDate() + 3).toLocaleString()
 

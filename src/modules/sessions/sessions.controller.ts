@@ -9,9 +9,4 @@ export class SessionsController {
   async createSession(@Query('carId') carId: string, @Query('dateTo') dateTo: string, @Query('dateFrom') dateFrom: string) {
       return this.sessionsService.createSession(carId, dateFrom, dateTo)
   }
-
-  // @Get()
-  // findSessions(@Query('carId') carId: string, @Query('dateTo') dateTo: string, @Query('dateFrom') dateFrom: string) {
-  //   return this.sessionsService.hasNotSessions(carId, dateFrom, dateTo)
-  // }
 }

@@ -10,19 +10,11 @@ export class SeedService {
         await this.seedCars()
     }
 
-        // EXAMPLE: INSERT INTO rental_sessions (rent_date_range) VALUES ('[2010-01-01 14:45, 2010-01-01 15:45)');
-
-
     async createTables() {
         await this.db.executeQuery('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
         await this.db.executeQuery(`CREATE TABLE IF NOT EXISTS cars 
             (id VARCHAR(6) NOT NULL PRIMARY KEY, 
             rental_availability BOOLEAN DEFAULT true);`)
-
-        // await this.db.executeQuery(`CREATE TABLE IF NOT EXISTS rental_sessions (id UUID NOT NULL DEFAULT uuid_generate_v1() NOT NULL PRIMARY KEY, 
-        //     rent_price numeric DEFAULT 1000, 
-        //     rent_date_range tsrange NOT NULL, 
-        //     car_id VARCHAR(6) NOT NULL REFERENCES cars(id));`)
 
         await this.db.executeQuery(`CREATE TABLE IF NOT EXISTS rental_sessions (id UUID NOT NULL DEFAULT uuid_generate_v1() NOT NULL PRIMARY KEY, 
             rent_price numeric DEFAULT 1000, 
@@ -31,16 +23,6 @@ export class SeedService {
             car_id VARCHAR(6) NOT NULL REFERENCES cars(id));`
         )
 
-            //   CREATE TABLE child (
-            //     child_id integer primary key,
-            //     parent_id integer not null references parent(parent_id),
-            //     ...
-            //   );
-            
-        // await this.db.executeQuery('ALTER TABLE "car" ADD CONSTRAIT "cars_pkey" primary key ("id")')
-        // this.db.executeQuery('CREATE TABLE IF NOT EXISTS car (car_id int, column1 varchar(50));')
-        // this.db.executeQuery('CREATE TABLE IF NOT EXISTS car (car_id int, column1 varchar(50));')
-        // this.db.executeQuery('CREATE TABLE IF NOT EXISTS car (car_id int, column1 varchar(50));')
     }
 
     async seedCars() {
