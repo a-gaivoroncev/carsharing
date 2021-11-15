@@ -1,5 +1,4 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { Injectable, Logger } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
 import { Pool, QueryResult } from "pg";
 import { DATABASE_POOL } from "src/constants";
@@ -8,11 +7,7 @@ import { DATABASE_POOL } from "src/constants";
 export class DatabaseService {
   private readonly logger = new Logger(DatabaseService.name);
 
-  constructor(
-    // @Inject('DATABASE_POOL') private poolRepository: Pool,
-    // private readonly configServ: typeof ConfigService
-   private readonly moduleRef: ModuleRef
-   ) {}
+  constructor(private readonly moduleRef: ModuleRef) {}
    
 
   executeQuery(queryText: string, values: any[] = []): Promise<any[]> {
