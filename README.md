@@ -29,33 +29,59 @@
 ## Installation
 
 ```bash
-$ npm install
+$ yarn
 ```
+
+
+## Setup local dev environment
+
+### Create local DB
+
+```bash
+$ cd ./db
+$ docker-compose up
+```
+
+### Connect to local db
+* Create file /env/.env.development
+* Add this text to file
+
+    * POSTGRES_HOST=0.0.0.0
+
+    * POSTGRES_PORT=5432
+
+    * POSTGRES_USER=root
+
+    * POSTGRES_PASSWORD=root
+  
+    * POSTGRES_DB=postgres
+
+* Save
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn run start
 
 # watch mode
-$ npm run start:dev
+$ yarn run start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn run start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn run test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn run test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn run test:cov
 ```
 
 ## Support
