@@ -6,22 +6,22 @@ export class SessionsService {
     constructor(private readonly db: DatabaseService) { }
 
     async calculateSession(dateFromString: string, dateToString: string) {
-            const dateFrom = new Date(dateFromString);
-            const dateTo = new Date(dateToString);
-            if (isNaN(dateFrom.getTime()) || isNaN(dateTo.getTime())) {
-                throw new BadRequestException('Invalid date')
-            }
-            if (!this.isWorkingDay(dateFrom) || !this.isWorkingDay(dateTo)) {
-                throw new BadRequestException('You cant start/end rent at weekends')
-            }
+        const dateFrom = new Date(dateFromString);
+        const dateTo = new Date(dateToString);
+        if (isNaN(dateFrom.getTime()) || isNaN(dateTo.getTime())) {
+            throw new BadRequestException('Invalid date')
+        }
+        if (!this.isWorkingDay(dateFrom) || !this.isWorkingDay(dateTo)) {
+            throw new BadRequestException('You cant start/end rent at weekends')
+        }
 
-            const rentPrice = this.calculateRentPrice(dateFrom, dateTo)
+        const rentPrice = this.calculateRentPrice(dateFrom, dateTo)
 
-            return {
-                dateFrom,
-                dateTo,
-                rentPrice
-            }
+        return {
+            dateFrom,
+            dateTo,
+            rentPrice
+        }
 
 
     }

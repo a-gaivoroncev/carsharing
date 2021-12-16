@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from "@nestjs/config";
 import { CarModule } from './modules/car/car.module';
-import { DatabaseModule } from './modules/database/database.module';
 import { SeedModule } from './modules/seed/seed.module';
 import { SessionsModule } from './modules/sessions/sessions.module';
 

@@ -1,8 +1,6 @@
 import { Logger, Module, OnApplicationShutdown } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { ModuleRef } from "@nestjs/core";
 import { Pool } from "pg";
-import { DATABASE_POOL } from "src/constants";
 import { databaseProviders } from "./database.providers";
 import { DatabaseService } from "./database.service";
 
